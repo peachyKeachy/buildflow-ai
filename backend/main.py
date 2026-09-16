@@ -1,4 +1,5 @@
 # HTTP API for BuildFlow AI
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend.claude_service import chat_with_buildflow
 
@@ -21,6 +22,15 @@ class ChatInput(BaseModel):
     message: str
 
 app = FastAPI(title="BuildFlow AI API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # ENDPOINTS
