@@ -1,19 +1,27 @@
-# Claude / AI / Tool calling
-
+import json
 
 import anthropic
 from dotenv import load_dotenv
 
 from backend.project_service import (
     get_project_by_id,
-    get_critical_rfis
+    get_critical_rfis,
+    get_project_summary,
+    get_project_rfis,
 )
 
-import json
 
 load_dotenv()
 
 client = anthropic.Anthropic()
+
+
+SYSTEM_PROMPT = (
+    "You are BuildFlow AI, an assistant for construction project management. "
+    "Help users understand project information, RFIs, project risks, and "
+    "construction workflows. Be concise and do not invent project data. "
+    "Use available tools when project-specific information is required."
+)
 
 
 tools = [
@@ -22,20 +30,75 @@ tools = [
         "description": (
             "Get the critical RFIs for a construction project. "
             "Use this when the user asks which RFIs are critical, urgent, "
-            "or need immediate attention."
+            "blocking, or need immediate attention."
         ),
         "input_schema": {
             "type": "object",
             "properties": {
                 "project_id": {
                     "type": "integer",
-                    "description": "The numeric ID of the construction project."
+                    "description": "The numeric ID of the construction project.",
                 }
             },
-            "required": ["project_id"]
-        }
-    }
+            "required": ["project_id"],
+        },
+    },
+    {
+        "name": "get_project_summary",
+        "description": (
+            "Get a summary of a construction project, including the project name, "
+            "total number of RFIs, number of critical RFIs, and number of blocking RFIs. "
+            "Use this when the user asks for a project overview, summary, status, "
+            "or general RFI counts."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "project_id": {
+                    "type": "integer",
+                    "description": "The numeric ID of the construction project.",
+                }
+            },
+            "required": ["project_id"],
+        },
+    },
+    {
+        "name": "get_project_rfis",
+        "description": (
+            "Get all RFIs for a construction project. "
+            "Use this when the user asks to see, list, review, or inspect "
+            "all RFIs for a specific project."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "project_id": {
+                    "type": "integer",
+                    "description": "The numeric ID of the construction project.",
+                }
+            },
+            "required": ["project_id"],
+        },
+    },
 ]
+
+
+def ask_claude(message: str):
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=300,
+        thinking={"type": "disabled"},
+        system=SYSTEM_PROMPT,
+        tools=tools,
+        messages=[
+            {
+                "role": "user",
+                "content": message,
+            }
+        ],
+    )
+
+    return response
 
 
 def execute_tool(tool_use):
@@ -54,38 +117,62 @@ def execute_tool(tool_use):
         return {
             "project_id": project["id"],
             "project_name": project["name"],
-            "critical_rfis": critical_rfis
+            "critical_rfis": critical_rfis,
+        }
+
+    if tool_use.name == "get_project_summary":
+        project_id = tool_use.input["project_id"]
+
+        project = get_project_by_id(project_id)
+
+        if project is None:
+            return {
+                "error": "Project not found"
+            }
+
+        return get_project_summary(project)
+
+    if tool_use.name == "get_project_rfis":
+        project_id = tool_use.input["project_id"]
+
+        project = get_project_by_id(project_id)
+
+        if project is None:
+            return {
+                "error": "Project not found"
+            }
+
+        return {
+            "project_id": project["id"],
+            "project_name": project["name"],
+            "rfis": get_project_rfis(project),
         }
 
     return {
         "error": f"Unknown tool: {tool_use.name}"
     }
 
+
 def send_tool_result(
     original_message: str,
     response,
     tool_use,
-    result
+    result,
 ):
     followup_response = client.messages.create(
         model="claude-sonnet-5",
         max_tokens=300,
         thinking={"type": "disabled"},
-        system=(
-            "You are BuildFlow AI, an assistant for construction project management. "
-            "Help users understand project information, RFIs, project risks, and "
-            "construction workflows. Be concise and do not invent project data. "
-            "Use available tools when project-specific information is required."
-        ),
+        system=SYSTEM_PROMPT,
         tools=tools,
         messages=[
             {
                 "role": "user",
-                "content": original_message
+                "content": original_message,
             },
             {
                 "role": "assistant",
-                "content": response.content
+                "content": response.content,
             },
             {
                 "role": "user",
@@ -93,36 +180,14 @@ def send_tool_result(
                     {
                         "type": "tool_result",
                         "tool_use_id": tool_use.id,
-                        "content": json.dumps(result)
+                        "content": json.dumps(result),
                     }
-                ]
-            }
-        ]
+                ],
+            },
+        ],
     )
 
     return followup_response
-
-def ask_claude(message: str):
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=300,
-        thinking={"type": "disabled"},
-        system=(
-            "You are BuildFlow AI, an assistant for construction project management. "
-            "Help users understand project information, RFIs, project risks, and "
-            "construction workflows. Be concise and do not invent project data. "
-            "Use available tools when project-specific information is required."
-        ),
-        tools=tools,
-        messages=[
-            {
-                "role": "user",
-                "content": message
-            }
-        ]
-    )
-
-    return response
 
 
 def chat_with_buildflow(message: str) -> str:
@@ -148,7 +213,7 @@ def chat_with_buildflow(message: str) -> str:
             message,
             response,
             tool_use,
-            result
+            result,
         )
 
         return final_response.content[0].text
@@ -157,27 +222,8 @@ def chat_with_buildflow(message: str) -> str:
 
 
 if __name__ == "__main__":
-    user_message = "Which RFIs are critical for project 101?"
+    user_message = "Give me a summary of project 101."
 
-    response = ask_claude(user_message)
+    answer = chat_with_buildflow(user_message)
 
-    print("First stop reason:", response.stop_reason)
-
-    if response.stop_reason == "tool_use":
-        tool_use = response.content[0]
-
-        result = execute_tool(tool_use)
-
-        print("Tool requested:", tool_use.name)
-        print("Tool input:", tool_use.input)
-        print("Tool result:", result)
-
-        final_response = send_tool_result(
-            user_message,
-            response,
-            tool_use,
-            result
-        )
-
-        print("Final stop reason:", final_response.stop_reason)
-        print("Final answer:", final_response.content[0].text)
+    print(answer)

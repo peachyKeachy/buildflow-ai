@@ -71,3 +71,6 @@ def get_project_summary(project: dict) -> dict:
     }
 
     return summary
+
+def get_project_rfis(project: dict) -> list:
+    return project["rfis"]
