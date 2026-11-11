@@ -16,3 +16,8 @@ venv/
 
 # macOS
 .DS_Store
+
+.playwright-mcp/
+
+.agents/skills/
+.playwright-mcp/
