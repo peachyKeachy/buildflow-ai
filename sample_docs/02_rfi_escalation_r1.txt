@@ -1,0 +1,14 @@
+Document-ID: BF-RFI-001
+Title: Sample RFI Escalation Procedure
+Project-ID: all
+Revision: 1
+Sample-Data: true
+Notice: Entirely fictional archived example; not company policy. Superseded by revision 2.
+
+# SYNTHETIC SAMPLE: Archived RFI Escalation Procedure
+
+## Urgent escalation
+ARCHIVED REVISION 1: For a blocking RFI open more than seven days, the project engineer prepared the Cedar escalation packet within forty-eight working hours. The escalation owner was the fictional operations coordinator Jules Park. These instructions are obsolete. Revision 2 replaces both the deadline and the escalation owner.
+
+## Packet contents
+The archived Cedar escalation packet contained the RFI number, affected work area, and requested decision date. This incomplete older checklist must not replace revision 2's current packet requirements.

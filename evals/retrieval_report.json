@@ -1,0 +1,1486 @@
+{
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "reranker": "cross-encoder/ms-marco-MiniLM-L6-v2@233902d25c440f23af6f7d6e94d2946bac0bee0a",
+  "generated_at": "2026-11-14T21:21:21.598915+00:00",
+  "environment": {
+    "python": "3.13.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "device": "CPU",
+    "torch_threads": 2
+  },
+  "positive_cases": 17,
+  "negative_cases": 9,
+  "first_query_with_model_load_ms": {
+    "sqlite_bm25": 4.162,
+    "dense_fusion": 4133.167,
+    "rerank": 249.651,
+    "total": 4464.569
+  },
+  "metrics": {
+    "hybrid": {
+      "recall_at_5": 1.0,
+      "hit_at_1": 0.9412,
+      "mrr_at_5": 0.9706,
+      "evidence_hit": 1,
+      "negative_abstention_rate": 0.8889,
+      "warm_median_ms": 7.212,
+      "warm_p95_ms": 9.673
+    },
+    "hybrid_reranked": {
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": 1,
+      "negative_abstention_rate": 1,
+      "warm_median_ms": 228.479,
+      "warm_p95_ms": 249.892
+    }
+  },
+  "cases": [
+    {
+      "id": "rfi-owner",
+      "reranked": false,
+      "status": "ok",
+      "question": "Who receives the Cedar escalation packet?",
+      "expected": [
+        "BF-RFI-001:r2:urgent-escalation:1"
+      ],
+      "top5": [
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-RFI-001:r2:routine-follow-up:1"
+      ],
+      "evidence": [
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-SUB-001:r1:required-package:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 0,
+      "mrr_at_5": 0.5,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.141,
+        "dense_fusion": 5.965,
+        "total": 7.116
+      }
+    },
+    {
+      "id": "rfi-packet",
+      "reranked": false,
+      "status": "ok",
+      "question": "What evidence and impact details belong in a Cedar RFI escalation packet?",
+      "expected": [
+        "BF-RFI-001:r2:packet-contents:1"
+      ],
+      "top5": [
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1",
+        "BF-RFI-001:r2:routine-follow-up:1"
+      ],
+      "evidence": [
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-RFI-001:r2:routine-follow-up:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.008,
+        "dense_fusion": 6.837,
+        "total": 7.854
+      }
+    },
+    {
+      "id": "rfi-routine",
+      "reranked": false,
+      "status": "ok",
+      "question": "When should an unanswered nonblocking RFI get routine follow-up?",
+      "expected": [
+        "BF-RFI-001:r2:routine-follow-up:1"
+      ],
+      "top5": [
+        "BF-RFI-001:r2:routine-follow-up:1",
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-DOC-001:r1:status-reconciliation:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1"
+      ],
+      "evidence": [
+        "BF-RFI-001:r2:routine-follow-up:1",
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-RFI-001:r2:urgent-escalation:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.037,
+        "dense_fusion": 6.583,
+        "total": 7.629
+      }
+    },
+    {
+      "id": "coordination-time",
+      "reranked": false,
+      "status": "ok",
+      "question": "Who chairs the weekly trade meeting and when is the constraint list due?",
+      "expected": [
+        "BF-COORD-001:r1:weekly-coordination:1"
+      ],
+      "top5": [
+        "BF-COORD-001:r1:weekly-coordination:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-DOC-001:r1:daily-report-cutoff:1"
+      ],
+      "evidence": [
+        "BF-COORD-001:r1:weekly-coordination:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-FIELD-001:r1:resolution-evidence:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.001,
+        "dense_fusion": 6.067,
+        "total": 7.078
+      }
+    },
+    {
+      "id": "decision-owner",
+      "reranked": false,
+      "status": "ok",
+      "question": "Who owns installation sequencing and who routes design interpretation questions?",
+      "expected": [
+        "BF-COORD-001:r1:decision-ownership:1"
+      ],
+      "top5": [
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-COORD-001:r1:weekly-coordination:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1"
+      ],
+      "evidence": [
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.051,
+        "dense_fusion": 6.328,
+        "total": 7.389
+      }
+    },
+    {
+      "id": "submittal-window",
+      "reranked": false,
+      "status": "ok",
+      "question": "How long is the completeness check and the design review window for submittals?",
+      "expected": [
+        "BF-SUB-001:r1:review-window:1"
+      ],
+      "top5": [
+        "BF-SUB-001:r1:review-window:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-SUB-001:r1:resubmission:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-RFI-001:r2:urgent-escalation:1"
+      ],
+      "evidence": [
+        "BF-SUB-001:r1:review-window:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-SUB-001:r1:resubmission:1",
+        "BF-RFI-001:r2:routine-follow-up:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.013,
+        "dense_fusion": 5.967,
+        "total": 6.989
+      }
+    },
+    {
+      "id": "submittal-package",
+      "reranked": false,
+      "status": "ok",
+      "question": "What must be included with product data and shop drawings submitted for review?",
+      "expected": [
+        "BF-SUB-001:r1:required-package:1"
+      ],
+      "top5": [
+        "BF-SUB-001:r1:required-package:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-SUB-001:r1:review-window:1",
+        "BF-DOC-001:r1:status-reconciliation:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1"
+      ],
+      "evidence": [
+        "BF-SUB-001:r1:required-package:1",
+        "BF-COORD-001:r1:decision-ownership:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.056,
+        "dense_fusion": 5.45,
+        "total": 6.515
+      }
+    },
+    {
+      "id": "submittal-resubmit",
+      "reranked": false,
+      "status": "ok",
+      "question": "How should we handle a revise-and-resubmit disposition?",
+      "expected": [
+        "BF-SUB-001:r1:resubmission:1"
+      ],
+      "top5": [
+        "BF-SUB-001:r1:resubmission:1",
+        "BF-DOC-001:r1:file-naming:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-COORD-001:r1:decision-ownership:1"
+      ],
+      "evidence": [
+        "BF-SUB-001:r1:resubmission:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 0.994,
+        "dense_fusion": 8.667,
+        "total": 9.673
+      }
+    },
+    {
+      "id": "field-paraphrase",
+      "reranked": false,
+      "status": "ok",
+      "question": "What happens when trades discover intersecting service routes?",
+      "expected": [
+        "BF-FIELD-001:r1:routing-conflict-triage:1"
+      ],
+      "top5": [
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1"
+      ],
+      "evidence": [
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.065,
+        "dense_fusion": 6.206,
+        "total": 7.28
+      }
+    },
+    {
+      "id": "field-exact-code",
+      "reranked": false,
+      "status": "ok",
+      "question": "What clearance does the BX-17 hold request and who verifies it?",
+      "expected": [
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1"
+      ],
+      "top5": [
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1",
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1"
+      ],
+      "evidence": [
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.015,
+        "dense_fusion": 6.187,
+        "total": 7.212
+      }
+    },
+    {
+      "id": "daily-report",
+      "reranked": false,
+      "status": "ok",
+      "question": "When is the daily construction report due and what should it include?",
+      "expected": [
+        "BF-DOC-001:r1:daily-report-cutoff:1"
+      ],
+      "top5": [
+        "BF-DOC-001:r1:daily-report-cutoff:1",
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1",
+        "BF-COMMS-001:r1:shared-action-record:1",
+        "BF-DOC-001:r1:status-reconciliation:1"
+      ],
+      "evidence": [
+        "BF-DOC-001:r1:daily-report-cutoff:1",
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1",
+        "BF-COMMS-001:r1:shared-action-record:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 0.979,
+        "dense_fusion": 5.533,
+        "total": 6.522
+      }
+    },
+    {
+      "id": "file-name",
+      "reranked": false,
+      "status": "ok",
+      "question": "What naming pattern should be used for evidence files?",
+      "expected": [
+        "BF-DOC-001:r1:file-naming:1"
+      ],
+      "top5": [
+        "BF-DOC-001:r1:file-naming:1",
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-DOC-001:r1:status-reconciliation:1"
+      ],
+      "evidence": [
+        "BF-DOC-001:r1:file-naming:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.055,
+        "dense_fusion": 5.357,
+        "total": 6.421
+      }
+    },
+    {
+      "id": "ceiling-hold",
+      "reranked": false,
+      "status": "ok",
+      "question": "Who owns the Level 2 east-corridor ceiling hold and what releases it?",
+      "expected": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1"
+      ],
+      "top5": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1"
+      ],
+      "evidence": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 0.985,
+        "dense_fusion": 5.661,
+        "total": 6.656
+      }
+    },
+    {
+      "id": "walkthrough",
+      "reranked": false,
+      "status": "ok",
+      "question": "When and where was the project 101 corridor walkthrough scheduled?",
+      "expected": [
+        "BF-MTG-101:r1:corridor-walkthrough:1"
+      ],
+      "top5": [
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1",
+        "BF-COORD-001:r1:shared-action-record:1"
+      ],
+      "evidence": [
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 0.984,
+        "dense_fusion": 6.607,
+        "total": 7.601
+      }
+    },
+    {
+      "id": "issue-subject",
+      "reranked": false,
+      "status": "ok",
+      "question": "How should we format the subject of an issue communication?",
+      "expected": [
+        "BF-COMMS-001:r1:communication-format:1"
+      ],
+      "top5": [
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-COMMS-001:r1:shared-action-record:1",
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-FIELD-001:r1:resolution-evidence:1"
+      ],
+      "evidence": [
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-COMMS-001:r1:shared-action-record:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.004,
+        "dense_fusion": 6.205,
+        "total": 7.219
+      }
+    },
+    {
+      "id": "notice-not-approval",
+      "reranked": false,
+      "status": "ok",
+      "question": "Does sending an urgent safety notice authorize a field design change?",
+      "expected": [
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1"
+      ],
+      "top5": [
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1",
+        "BF-RFI-001:r2:routine-follow-up:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-SUB-001:r1:review-window:1"
+      ],
+      "evidence": [
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.358,
+        "dense_fusion": 5.943,
+        "total": 7.31
+      }
+    },
+    {
+      "id": "duplicate-log",
+      "reranked": false,
+      "status": "ok",
+      "question": "What fields belong in the shared coordination action record?",
+      "expected": [
+        "BF-COORD-001:r1:shared-action-record:1",
+        "BF-COMMS-001:r1:shared-action-record:1"
+      ],
+      "top5": [
+        "BF-COORD-001:r1:shared-action-record:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-COORD-001:r1:weekly-coordination:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1"
+      ],
+      "evidence": [
+        "BF-COORD-001:r1:shared-action-record:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-COORD-001:r1:weekly-coordination:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 0.948,
+        "dense_fusion": 5.092,
+        "total": 6.048
+      }
+    },
+    {
+      "id": "missing-budget",
+      "reranked": false,
+      "status": "insufficient_evidence",
+      "question": "What is the approved project budget in dollars?",
+      "expected": [],
+      "top5": [
+        "BF-COORD-001:r1:shared-action-record:1",
+        "BF-DOC-001:r1:status-reconciliation:1",
+        "BF-DOC-001:r1:daily-report-cutoff:1",
+        "BF-COORD-001:r1:weekly-coordination:1",
+        "BF-SUB-001:r1:review-window:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 1.054,
+        "dense_fusion": 5.591,
+        "total": 6.653
+      }
+    },
+    {
+      "id": "missing-bank",
+      "reranked": false,
+      "status": "insufficient_evidence",
+      "question": "What is the owner's bank account number?",
+      "expected": [],
+      "top5": [
+        "BF-COORD-001:r1:shared-action-record:1",
+        "BF-DOC-001:r1:status-reconciliation:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 0.913,
+        "dense_fusion": 5.149,
+        "total": 6.071
+      }
+    },
+    {
+      "id": "unrelated-food",
+      "reranked": false,
+      "status": "insufficient_evidence",
+      "question": "How do I cook a steak?",
+      "expected": [],
+      "top5": [],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "total": 0.007
+      }
+    },
+    {
+      "id": "unrelated-sport",
+      "reranked": false,
+      "status": "insufficient_evidence",
+      "question": "Who won the football game?",
+      "expected": [],
+      "top5": [],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "total": 0.006
+      }
+    },
+    {
+      "id": "absent-project",
+      "reranked": false,
+      "status": "insufficient_evidence",
+      "question": "What is the RFI escalation procedure?",
+      "expected": [],
+      "top5": [],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "total": 0.001
+      }
+    },
+    {
+      "id": "missing-architect",
+      "reranked": false,
+      "status": "insufficient_evidence",
+      "question": "Who is the architect of record for project 101?",
+      "expected": [],
+      "top5": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1",
+        "BF-COMMS-001:r1:shared-action-record:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-DOC-001:r1:daily-report-cutoff:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 0.961,
+        "dense_fusion": 5.094,
+        "total": 6.064
+      }
+    },
+    {
+      "id": "missing-completion",
+      "reranked": false,
+      "status": "ok",
+      "question": "What is the approved contract completion date?",
+      "expected": [],
+      "top5": [
+        "BF-SUB-001:r1:required-package:1",
+        "BF-DOC-001:r1:status-reconciliation:1",
+        "BF-SUB-001:r1:review-window:1",
+        "BF-DOC-001:r1:daily-report-cutoff:1",
+        "BF-RFI-001:r2:packet-contents:1"
+      ],
+      "evidence": [
+        "BF-SUB-001:r1:review-window:1"
+      ],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": false,
+      "timings_ms": {
+        "sqlite_bm25": 0.947,
+        "dense_fusion": 6.633,
+        "total": 7.59
+      }
+    },
+    {
+      "id": "missing-warranty",
+      "reranked": false,
+      "status": "insufficient_evidence",
+      "question": "What is the warranty period for the specified air handling units?",
+      "expected": [],
+      "top5": [
+        "BF-SUB-001:r1:review-window:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-SUB-001:r1:required-package:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 0.993,
+        "dense_fusion": 6.736,
+        "total": 7.738
+      }
+    },
+    {
+      "id": "missing-fire-rating",
+      "reranked": false,
+      "status": "insufficient_evidence",
+      "question": "What is the required fire rating of the east corridor doors?",
+      "expected": [],
+      "top5": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 0.991,
+        "dense_fusion": 5.839,
+        "total": 6.839
+      }
+    },
+    {
+      "id": "rfi-owner",
+      "reranked": true,
+      "status": "ok",
+      "question": "Who receives the Cedar escalation packet?",
+      "expected": [
+        "BF-RFI-001:r2:urgent-escalation:1"
+      ],
+      "top5": [
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-RFI-001:r2:routine-follow-up:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1"
+      ],
+      "evidence": [
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-SUB-001:r1:required-package:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 0.998,
+        "dense_fusion": 5.341,
+        "rerank": 211.364,
+        "total": 217.719
+      }
+    },
+    {
+      "id": "rfi-packet",
+      "reranked": true,
+      "status": "ok",
+      "question": "What evidence and impact details belong in a Cedar RFI escalation packet?",
+      "expected": [
+        "BF-RFI-001:r2:packet-contents:1"
+      ],
+      "top5": [
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-RFI-001:r2:routine-follow-up:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1"
+      ],
+      "evidence": [
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-SUB-001:r1:required-package:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.082,
+        "dense_fusion": 8.155,
+        "rerank": 224.948,
+        "total": 234.202
+      }
+    },
+    {
+      "id": "rfi-routine",
+      "reranked": true,
+      "status": "ok",
+      "question": "When should an unanswered nonblocking RFI get routine follow-up?",
+      "expected": [
+        "BF-RFI-001:r2:routine-follow-up:1"
+      ],
+      "top5": [
+        "BF-RFI-001:r2:routine-follow-up:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1"
+      ],
+      "evidence": [
+        "BF-RFI-001:r2:routine-follow-up:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.275,
+        "dense_fusion": 6.896,
+        "rerank": 237.528,
+        "total": 245.715
+      }
+    },
+    {
+      "id": "coordination-time",
+      "reranked": true,
+      "status": "ok",
+      "question": "Who chairs the weekly trade meeting and when is the constraint list due?",
+      "expected": [
+        "BF-COORD-001:r1:weekly-coordination:1"
+      ],
+      "top5": [
+        "BF-COORD-001:r1:weekly-coordination:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-DOC-001:r1:daily-report-cutoff:1",
+        "BF-DOC-001:r1:status-reconciliation:1",
+        "BF-FIELD-001:r1:resolution-evidence:1"
+      ],
+      "evidence": [
+        "BF-COORD-001:r1:weekly-coordination:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.131,
+        "dense_fusion": 5.708,
+        "rerank": 222.288,
+        "total": 229.143
+      }
+    },
+    {
+      "id": "decision-owner",
+      "reranked": true,
+      "status": "ok",
+      "question": "Who owns installation sequencing and who routes design interpretation questions?",
+      "expected": [
+        "BF-COORD-001:r1:decision-ownership:1"
+      ],
+      "top5": [
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-COORD-001:r1:weekly-coordination:1",
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-RFI-001:r2:urgent-escalation:1"
+      ],
+      "evidence": [
+        "BF-COORD-001:r1:decision-ownership:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.133,
+        "dense_fusion": 5.789,
+        "rerank": 207.845,
+        "total": 214.783
+      }
+    },
+    {
+      "id": "submittal-window",
+      "reranked": true,
+      "status": "ok",
+      "question": "How long is the completeness check and the design review window for submittals?",
+      "expected": [
+        "BF-SUB-001:r1:review-window:1"
+      ],
+      "top5": [
+        "BF-SUB-001:r1:review-window:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-RFI-001:r2:routine-follow-up:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-SUB-001:r1:resubmission:1"
+      ],
+      "evidence": [
+        "BF-SUB-001:r1:review-window:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.223,
+        "dense_fusion": 8.88,
+        "rerank": 239.771,
+        "total": 249.892
+      }
+    },
+    {
+      "id": "submittal-package",
+      "reranked": true,
+      "status": "ok",
+      "question": "What must be included with product data and shop drawings submitted for review?",
+      "expected": [
+        "BF-SUB-001:r1:required-package:1"
+      ],
+      "top5": [
+        "BF-SUB-001:r1:required-package:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-SUB-001:r1:review-window:1",
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-SUB-001:r1:resubmission:1"
+      ],
+      "evidence": [
+        "BF-SUB-001:r1:required-package:1",
+        "BF-COORD-001:r1:decision-ownership:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.179,
+        "dense_fusion": 6.554,
+        "rerank": 212.487,
+        "total": 220.238
+      }
+    },
+    {
+      "id": "submittal-resubmit",
+      "reranked": true,
+      "status": "ok",
+      "question": "How should we handle a revise-and-resubmit disposition?",
+      "expected": [
+        "BF-SUB-001:r1:resubmission:1"
+      ],
+      "top5": [
+        "BF-SUB-001:r1:resubmission:1",
+        "BF-DOC-001:r1:file-naming:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-SUB-001:r1:review-window:1"
+      ],
+      "evidence": [
+        "BF-SUB-001:r1:resubmission:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.107,
+        "dense_fusion": 7.196,
+        "rerank": 224.349,
+        "total": 232.67
+      }
+    },
+    {
+      "id": "field-paraphrase",
+      "reranked": true,
+      "status": "ok",
+      "question": "What happens when trades discover intersecting service routes?",
+      "expected": [
+        "BF-FIELD-001:r1:routing-conflict-triage:1"
+      ],
+      "top5": [
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-COORD-001:r1:weekly-coordination:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-COORD-001:r1:decision-ownership:1"
+      ],
+      "evidence": [
+        "BF-FIELD-001:r1:routing-conflict-triage:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.086,
+        "dense_fusion": 6.152,
+        "rerank": 207.844,
+        "total": 215.099
+      }
+    },
+    {
+      "id": "field-exact-code",
+      "reranked": true,
+      "status": "ok",
+      "question": "What clearance does the BX-17 hold request and who verifies it?",
+      "expected": [
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1"
+      ],
+      "top5": [
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-RFI-001:r2:packet-contents:1"
+      ],
+      "evidence": [
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.112,
+        "dense_fusion": 6.765,
+        "rerank": 230.139,
+        "total": 238.033
+      }
+    },
+    {
+      "id": "daily-report",
+      "reranked": true,
+      "status": "ok",
+      "question": "When is the daily construction report due and what should it include?",
+      "expected": [
+        "BF-DOC-001:r1:daily-report-cutoff:1"
+      ],
+      "top5": [
+        "BF-DOC-001:r1:daily-report-cutoff:1",
+        "BF-COMMS-001:r1:shared-action-record:1",
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-DOC-001:r1:status-reconciliation:1",
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1"
+      ],
+      "evidence": [
+        "BF-DOC-001:r1:daily-report-cutoff:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.13,
+        "dense_fusion": 6.106,
+        "rerank": 222.261,
+        "total": 229.515
+      }
+    },
+    {
+      "id": "file-name",
+      "reranked": true,
+      "status": "ok",
+      "question": "What naming pattern should be used for evidence files?",
+      "expected": [
+        "BF-DOC-001:r1:file-naming:1"
+      ],
+      "top5": [
+        "BF-DOC-001:r1:file-naming:1",
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-COORD-001:r1:decision-ownership:1"
+      ],
+      "evidence": [
+        "BF-DOC-001:r1:file-naming:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.117,
+        "dense_fusion": 7.304,
+        "rerank": 210.735,
+        "total": 219.172
+      }
+    },
+    {
+      "id": "ceiling-hold",
+      "reranked": true,
+      "status": "ok",
+      "question": "Who owns the Level 2 east-corridor ceiling hold and what releases it?",
+      "expected": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1"
+      ],
+      "top5": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-RFI-001:r2:urgent-escalation:1"
+      ],
+      "evidence": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.118,
+        "dense_fusion": 5.741,
+        "rerank": 219.369,
+        "total": 226.245
+      }
+    },
+    {
+      "id": "walkthrough",
+      "reranked": true,
+      "status": "ok",
+      "question": "When and where was the project 101 corridor walkthrough scheduled?",
+      "expected": [
+        "BF-MTG-101:r1:corridor-walkthrough:1"
+      ],
+      "top5": [
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1"
+      ],
+      "evidence": [
+        "BF-MTG-101:r1:corridor-walkthrough:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.081,
+        "dense_fusion": 6.917,
+        "rerank": 220.464,
+        "total": 228.479
+      }
+    },
+    {
+      "id": "issue-subject",
+      "reranked": true,
+      "status": "ok",
+      "question": "How should we format the subject of an issue communication?",
+      "expected": [
+        "BF-COMMS-001:r1:communication-format:1"
+      ],
+      "top5": [
+        "BF-COMMS-001:r1:communication-format:1",
+        "BF-COMMS-001:r1:shared-action-record:1",
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1",
+        "BF-DOC-001:r1:file-naming:1",
+        "BF-FIELD-001:r1:resolution-evidence:1"
+      ],
+      "evidence": [
+        "BF-COMMS-001:r1:communication-format:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.093,
+        "dense_fusion": 6.202,
+        "rerank": 218.881,
+        "total": 226.199
+      }
+    },
+    {
+      "id": "notice-not-approval",
+      "reranked": true,
+      "status": "ok",
+      "question": "Does sending an urgent safety notice authorize a field design change?",
+      "expected": [
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1"
+      ],
+      "top5": [
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1",
+        "BF-SUB-001:r1:resubmission:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-FIELD-001:r1:resolution-evidence:1"
+      ],
+      "evidence": [
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.135,
+        "dense_fusion": 6.204,
+        "rerank": 223.772,
+        "total": 231.128
+      }
+    },
+    {
+      "id": "duplicate-log",
+      "reranked": true,
+      "status": "ok",
+      "question": "What fields belong in the shared coordination action record?",
+      "expected": [
+        "BF-COORD-001:r1:shared-action-record:1",
+        "BF-COMMS-001:r1:shared-action-record:1"
+      ],
+      "top5": [
+        "BF-COORD-001:r1:shared-action-record:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1",
+        "BF-COORD-001:r1:decision-ownership:1"
+      ],
+      "evidence": [
+        "BF-COORD-001:r1:shared-action-record:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.083,
+        "dense_fusion": 6.36,
+        "rerank": 201.0,
+        "total": 208.46
+      }
+    },
+    {
+      "id": "missing-budget",
+      "reranked": true,
+      "status": "insufficient_evidence",
+      "question": "What is the approved project budget in dollars?",
+      "expected": [],
+      "top5": [
+        "BF-DOC-001:r1:status-reconciliation:1",
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1",
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-SUB-001:r1:review-window:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 1.121,
+        "dense_fusion": 5.717,
+        "rerank": 217.118,
+        "total": 223.972
+      }
+    },
+    {
+      "id": "missing-bank",
+      "reranked": true,
+      "status": "insufficient_evidence",
+      "question": "What is the owner's bank account number?",
+      "expected": [],
+      "top5": [
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-COORD-001:r1:shared-action-record:1",
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 1.479,
+        "dense_fusion": 5.322,
+        "rerank": 211.853,
+        "total": 218.669
+      }
+    },
+    {
+      "id": "unrelated-food",
+      "reranked": true,
+      "status": "insufficient_evidence",
+      "question": "How do I cook a steak?",
+      "expected": [],
+      "top5": [],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "total": 0.009
+      }
+    },
+    {
+      "id": "unrelated-sport",
+      "reranked": true,
+      "status": "insufficient_evidence",
+      "question": "Who won the football game?",
+      "expected": [],
+      "top5": [],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "total": 0.005
+      }
+    },
+    {
+      "id": "absent-project",
+      "reranked": true,
+      "status": "insufficient_evidence",
+      "question": "What is the RFI escalation procedure?",
+      "expected": [],
+      "top5": [],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "total": 0.001
+      }
+    },
+    {
+      "id": "missing-architect",
+      "reranked": true,
+      "status": "insufficient_evidence",
+      "question": "Who is the architect of record for project 101?",
+      "expected": [],
+      "top5": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-COMMS-001:r1:shared-action-record:1",
+        "BF-RFI-001:r2:urgent-escalation:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 1.133,
+        "dense_fusion": 6.068,
+        "rerank": 219.214,
+        "total": 226.43
+      }
+    },
+    {
+      "id": "missing-completion",
+      "reranked": true,
+      "status": "insufficient_evidence",
+      "question": "What is the approved contract completion date?",
+      "expected": [],
+      "top5": [
+        "BF-DOC-001:r1:status-reconciliation:1",
+        "BF-SUB-001:r1:review-window:1",
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1",
+        "BF-SUB-001:r1:required-package:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 1.141,
+        "dense_fusion": 6.507,
+        "rerank": 214.029,
+        "total": 221.693
+      }
+    },
+    {
+      "id": "missing-warranty",
+      "reranked": true,
+      "status": "insufficient_evidence",
+      "question": "What is the warranty period for the specified air handling units?",
+      "expected": [],
+      "top5": [
+        "BF-SUB-001:r1:review-window:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-RFI-001:r2:routine-follow-up:1",
+        "BF-COMMS-001:r1:urgent-notice-versus-approval:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 1.123,
+        "dense_fusion": 5.65,
+        "rerank": 226.261,
+        "total": 233.049
+      }
+    },
+    {
+      "id": "missing-fire-rating",
+      "reranked": true,
+      "status": "insufficient_evidence",
+      "question": "What is the required fire rating of the east corridor doors?",
+      "expected": [],
+      "top5": [
+        "BF-MTG-101:r1:project-specific-ceiling-hold:1",
+        "BF-MTG-101:r1:corridor-walkthrough:1",
+        "BF-MTG-101:r1:door-hardware-clarification:1",
+        "BF-SUB-001:r1:review-window:1",
+        "BF-FIELD-001:r1:routing-conflict-triage:1"
+      ],
+      "evidence": [],
+      "recall_at_5": null,
+      "hit_at_1": null,
+      "mrr_at_5": 0,
+      "evidence_hit": null,
+      "correct_abstention": true,
+      "timings_ms": {
+        "sqlite_bm25": 1.152,
+        "dense_fusion": 7.496,
+        "rerank": 222.658,
+        "total": 231.321
+      }
+    }
+  ],
+  "limitations": "Small manually labeled synthetic corpus; descriptive results, not production accuracy. Ranking metrics use pre-threshold candidates; evidence_hit measures post-threshold retrieval. Duplicate source IDs count as aliases. Labels are not exhaustive judgments of every passage's relevance."
+}

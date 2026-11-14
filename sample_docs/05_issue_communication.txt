@@ -1,0 +1,17 @@
+Document-ID: BF-COMMS-001
+Title: Sample Construction Issue Communication Standard
+Project-ID: all
+Revision: 1
+Sample-Data: true
+Notice: Fictional BuildFlow demonstration; not an actual organization's instructions.
+
+# SYNTHETIC SAMPLE: Issue Communication
+
+## Communication format
+Use the subject pattern PROJECT / ISSUE-ID / LOCATION / DECISION NEEDED. State the observed condition, affected activity, responsible reviewer, and requested response date. Distinguish verified observations from assumptions. Include a marked-up drawing or annotated photograph when available.
+
+## Urgent notice versus approval
+For an immediate safety concern, stop the affected activity and notify the fictional superintendent through the site's designated safety channel. An urgent notice alerts people; it does not authorize a design change or replace formal safety procedures. Cost commitments and external messages require an authorized human reviewer. BuildFlow may prepare a draft only.
+
+## Shared action record
+Record the issue number, location, source drawing revision, assigned owner, target date, and next action in the coordination log. Keep the unresolved item open until the responsible reviewer provides a documented decision. Never close an issue solely because it was discussed in a meeting.
