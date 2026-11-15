@@ -1,30 +1,30 @@
 {
   "embedding_model": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
   "reranker": "cross-encoder/ms-marco-MiniLM-L6-v2@233902d25c440f23af6f7d6e94d2946bac0bee0a",
-  "generated_at": "2026-11-14T21:21:21.598915+00:00",
+  "generated_at": "2026-11-15T02:22:52.929817+00:00",
   "environment": {
     "python": "3.13.3",
     "platform": "Windows-11-10.0.26200-SP0",
     "device": "CPU",
     "torch_threads": 2
   },
-  "positive_cases": 17,
+  "positive_cases": 21,
   "negative_cases": 9,
   "first_query_with_model_load_ms": {
-    "sqlite_bm25": 4.162,
-    "dense_fusion": 4133.167,
-    "rerank": 249.651,
-    "total": 4464.569
+    "sqlite_bm25": 6.145,
+    "dense_fusion": 4546.56,
+    "rerank": 253.709,
+    "total": 4891.056
   },
   "metrics": {
     "hybrid": {
       "recall_at_5": 1.0,
-      "hit_at_1": 0.9412,
-      "mrr_at_5": 0.9706,
+      "hit_at_1": 0.9524,
+      "mrr_at_5": 0.9762,
       "evidence_hit": 1,
       "negative_abstention_rate": 0.8889,
-      "warm_median_ms": 7.212,
-      "warm_p95_ms": 9.673
+      "warm_median_ms": 7.651,
+      "warm_p95_ms": 8.588
     },
     "hybrid_reranked": {
       "recall_at_5": 1.0,
@@ -32,8 +32,8 @@
       "mrr_at_5": 1.0,
       "evidence_hit": 1,
       "negative_abstention_rate": 1,
-      "warm_median_ms": 228.479,
-      "warm_p95_ms": 249.892
+      "warm_median_ms": 238.479,
+      "warm_p95_ms": 287.815
     }
   },
   "cases": [
@@ -63,9 +63,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.141,
-        "dense_fusion": 5.965,
-        "total": 7.116
+        "sqlite_bm25": 1.209,
+        "dense_fusion": 7.368,
+        "total": 8.588
       }
     },
     {
@@ -95,9 +95,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.008,
-        "dense_fusion": 6.837,
-        "total": 7.854
+        "sqlite_bm25": 1.147,
+        "dense_fusion": 6.94,
+        "total": 8.101
       }
     },
     {
@@ -126,9 +126,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.037,
-        "dense_fusion": 6.583,
-        "total": 7.629
+        "sqlite_bm25": 1.238,
+        "dense_fusion": 6.917,
+        "total": 8.167
       }
     },
     {
@@ -157,9 +157,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.001,
-        "dense_fusion": 6.067,
-        "total": 7.078
+        "sqlite_bm25": 1.081,
+        "dense_fusion": 6.556,
+        "total": 7.648
       }
     },
     {
@@ -188,9 +188,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.051,
-        "dense_fusion": 6.328,
-        "total": 7.389
+        "sqlite_bm25": 1.089,
+        "dense_fusion": 6.341,
+        "total": 7.442
       }
     },
     {
@@ -220,9 +220,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.013,
-        "dense_fusion": 5.967,
-        "total": 6.989
+        "sqlite_bm25": 1.112,
+        "dense_fusion": 6.508,
+        "total": 7.63
       }
     },
     {
@@ -250,9 +250,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.056,
-        "dense_fusion": 5.45,
-        "total": 6.515
+        "sqlite_bm25": 1.122,
+        "dense_fusion": 5.973,
+        "total": 7.104
       }
     },
     {
@@ -279,9 +279,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 0.994,
-        "dense_fusion": 8.667,
-        "total": 9.673
+        "sqlite_bm25": 0.963,
+        "dense_fusion": 8.135,
+        "total": 9.107
       }
     },
     {
@@ -309,9 +309,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.065,
-        "dense_fusion": 6.206,
-        "total": 7.28
+        "sqlite_bm25": 1.141,
+        "dense_fusion": 5.736,
+        "total": 6.889
       }
     },
     {
@@ -338,9 +338,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.015,
-        "dense_fusion": 6.187,
-        "total": 7.212
+        "sqlite_bm25": 1.105,
+        "dense_fusion": 6.571,
+        "total": 7.687
       }
     },
     {
@@ -370,9 +370,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 0.979,
-        "dense_fusion": 5.533,
-        "total": 6.522
+        "sqlite_bm25": 1.1,
+        "dense_fusion": 6.238,
+        "total": 7.349
       }
     },
     {
@@ -399,9 +399,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.055,
-        "dense_fusion": 5.357,
-        "total": 6.421
+        "sqlite_bm25": 1.108,
+        "dense_fusion": 6.637,
+        "total": 7.756
       }
     },
     {
@@ -428,9 +428,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 0.985,
-        "dense_fusion": 5.661,
-        "total": 6.656
+        "sqlite_bm25": 1.074,
+        "dense_fusion": 6.568,
+        "total": 7.651
       }
     },
     {
@@ -458,9 +458,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 0.984,
-        "dense_fusion": 6.607,
-        "total": 7.601
+        "sqlite_bm25": 1.077,
+        "dense_fusion": 7.099,
+        "total": 8.187
       }
     },
     {
@@ -488,9 +488,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.004,
-        "dense_fusion": 6.205,
-        "total": 7.219
+        "sqlite_bm25": 1.338,
+        "dense_fusion": 6.424,
+        "total": 7.773
       }
     },
     {
@@ -517,9 +517,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.358,
-        "dense_fusion": 5.943,
-        "total": 7.31
+        "sqlite_bm25": 1.075,
+        "dense_fusion": 6.849,
+        "total": 7.935
       }
     },
     {
@@ -550,9 +550,9 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 0.948,
-        "dense_fusion": 5.092,
-        "total": 6.048
+        "sqlite_bm25": 1.069,
+        "dense_fusion": 6.066,
+        "total": 7.145
       }
     },
     {
@@ -575,9 +575,9 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 1.054,
-        "dense_fusion": 5.591,
-        "total": 6.653
+        "sqlite_bm25": 1.384,
+        "dense_fusion": 5.805,
+        "total": 7.199
       }
     },
     {
@@ -600,9 +600,9 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 0.913,
-        "dense_fusion": 5.149,
-        "total": 6.071
+        "sqlite_bm25": 1.423,
+        "dense_fusion": 6.23,
+        "total": 7.664
       }
     },
     {
@@ -619,7 +619,7 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "total": 0.007
+        "total": 0.009
       }
     },
     {
@@ -676,9 +676,9 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 0.961,
-        "dense_fusion": 5.094,
-        "total": 6.064
+        "sqlite_bm25": 1.056,
+        "dense_fusion": 8.55,
+        "total": 9.615
       }
     },
     {
@@ -703,9 +703,9 @@
       "evidence_hit": null,
       "correct_abstention": false,
       "timings_ms": {
-        "sqlite_bm25": 0.947,
-        "dense_fusion": 6.633,
-        "total": 7.59
+        "sqlite_bm25": 1.389,
+        "dense_fusion": 6.342,
+        "total": 7.743
       }
     },
     {
@@ -728,9 +728,9 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 0.993,
-        "dense_fusion": 6.736,
-        "total": 7.738
+        "sqlite_bm25": 1.084,
+        "dense_fusion": 6.364,
+        "total": 7.457
       }
     },
     {
@@ -753,9 +753,131 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 0.991,
-        "dense_fusion": 5.839,
-        "total": 6.839
+        "sqlite_bm25": 1.092,
+        "dense_fusion": 6.626,
+        "total": 7.727
+      }
+    },
+    {
+      "id": "tower-release",
+      "reranked": false,
+      "status": "ok",
+      "question": "According to the project-specific release procedure, who receives the packet and when?",
+      "expected": [
+        "BF-COORD-202:r1:project-specific-release-procedure:1"
+      ],
+      "top5": [
+        "BF-COORD-202:r1:project-specific-release-procedure:1",
+        "BF-COORD-202:r1:shared-escalation-boundary:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-COORD-202:r1:architectural-approvals:1",
+        "BF-COORD-202:r1:structural-and-facade-holds:1"
+      ],
+      "evidence": [
+        "BF-COORD-202:r1:project-specific-release-procedure:1",
+        "BF-COORD-202:r1:shared-escalation-boundary:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-COORD-202:r1:architectural-approvals:1",
+        "BF-RFI-001:r2:packet-contents:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.117,
+        "dense_fusion": 6.562,
+        "total": 7.691
+      }
+    },
+    {
+      "id": "logistics-release",
+      "reranked": false,
+      "status": "ok",
+      "question": "According to the project-specific release procedure, who receives the packet and when?",
+      "expected": [
+        "BF-COORD-303:r1:project-specific-release-procedure:1"
+      ],
+      "top5": [
+        "BF-COORD-303:r1:project-specific-release-procedure:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-COORD-001:r1:decision-ownership:1",
+        "BF-COMMS-001:r1:communication-format:1"
+      ],
+      "evidence": [
+        "BF-COORD-303:r1:project-specific-release-procedure:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-RFI-001:r2:packet-contents:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.131,
+        "dense_fusion": 6.256,
+        "total": 7.397
+      }
+    },
+    {
+      "id": "tower-holds",
+      "reranked": false,
+      "status": "ok",
+      "question": "What are the transfer slab and curtain-wall anchor release conditions?",
+      "expected": [
+        "BF-COORD-202:r1:structural-and-facade-holds:1"
+      ],
+      "top5": [
+        "BF-COORD-202:r1:structural-and-facade-holds:1",
+        "BF-COORD-202:r1:project-specific-release-procedure:1",
+        "BF-COORD-202:r1:shared-escalation-boundary:1",
+        "BF-SUB-001:r1:review-window:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1"
+      ],
+      "evidence": [
+        "BF-COORD-202:r1:structural-and-facade-holds:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.102,
+        "dense_fusion": 6.476,
+        "total": 7.589
+      }
+    },
+    {
+      "id": "logistics-holds",
+      "reranked": false,
+      "status": "ok",
+      "question": "What must happen before the underground fire-main crossing hold can be released?",
+      "expected": [
+        "BF-COORD-303:r1:fire-protection-and-warehouse-interfaces:1"
+      ],
+      "top5": [
+        "BF-COORD-303:r1:fire-protection-and-warehouse-interfaces:1",
+        "BF-COORD-303:r1:project-specific-release-procedure:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1",
+        "BF-COORD-303:r1:site-sequencing:1",
+        "BF-RFI-001:r2:urgent-escalation:1"
+      ],
+      "evidence": [
+        "BF-COORD-303:r1:fire-protection-and-warehouse-interfaces:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.109,
+        "dense_fusion": 6.477,
+        "total": 7.596
       }
     },
     {
@@ -784,10 +906,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 0.998,
-        "dense_fusion": 5.341,
-        "rerank": 211.364,
-        "total": 217.719
+        "sqlite_bm25": 1.068,
+        "dense_fusion": 5.69,
+        "rerank": 213.154,
+        "total": 219.93
       }
     },
     {
@@ -816,10 +938,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.082,
-        "dense_fusion": 8.155,
-        "rerank": 224.948,
-        "total": 234.202
+        "sqlite_bm25": 1.14,
+        "dense_fusion": 7.504,
+        "rerank": 234.705,
+        "total": 243.369
       }
     },
     {
@@ -846,10 +968,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.275,
-        "dense_fusion": 6.896,
-        "rerank": 237.528,
-        "total": 245.715
+        "sqlite_bm25": 1.176,
+        "dense_fusion": 6.932,
+        "rerank": 254.388,
+        "total": 262.514
       }
     },
     {
@@ -876,10 +998,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.131,
-        "dense_fusion": 5.708,
-        "rerank": 222.288,
-        "total": 229.143
+        "sqlite_bm25": 1.375,
+        "dense_fusion": 7.501,
+        "rerank": 242.431,
+        "total": 251.332
       }
     },
     {
@@ -906,10 +1028,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.133,
-        "dense_fusion": 5.789,
-        "rerank": 207.845,
-        "total": 214.783
+        "sqlite_bm25": 1.219,
+        "dense_fusion": 6.471,
+        "rerank": 215.483,
+        "total": 223.192
       }
     },
     {
@@ -936,10 +1058,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.223,
-        "dense_fusion": 8.88,
-        "rerank": 239.771,
-        "total": 249.892
+        "sqlite_bm25": 1.277,
+        "dense_fusion": 8.019,
+        "rerank": 252.988,
+        "total": 262.305
       }
     },
     {
@@ -967,10 +1089,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.179,
-        "dense_fusion": 6.554,
-        "rerank": 212.487,
-        "total": 220.238
+        "sqlite_bm25": 1.15,
+        "dense_fusion": 6.345,
+        "rerank": 224.964,
+        "total": 232.477
       }
     },
     {
@@ -997,10 +1119,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.107,
-        "dense_fusion": 7.196,
-        "rerank": 224.349,
-        "total": 232.67
+        "sqlite_bm25": 1.139,
+        "dense_fusion": 7.202,
+        "rerank": 249.666,
+        "total": 258.025
       }
     },
     {
@@ -1027,10 +1149,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.086,
-        "dense_fusion": 6.152,
-        "rerank": 207.844,
-        "total": 215.099
+        "sqlite_bm25": 1.133,
+        "dense_fusion": 6.286,
+        "rerank": 214.671,
+        "total": 222.107
       }
     },
     {
@@ -1057,10 +1179,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.112,
-        "dense_fusion": 6.765,
-        "rerank": 230.139,
-        "total": 238.033
+        "sqlite_bm25": 1.511,
+        "dense_fusion": 6.802,
+        "rerank": 229.314,
+        "total": 237.647
       }
     },
     {
@@ -1087,10 +1209,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.13,
-        "dense_fusion": 6.106,
-        "rerank": 222.261,
-        "total": 229.515
+        "sqlite_bm25": 1.198,
+        "dense_fusion": 6.462,
+        "rerank": 228.243,
+        "total": 235.921
       }
     },
     {
@@ -1117,10 +1239,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.117,
-        "dense_fusion": 7.304,
-        "rerank": 210.735,
-        "total": 219.172
+        "sqlite_bm25": 1.094,
+        "dense_fusion": 6.745,
+        "rerank": 214.904,
+        "total": 222.772
       }
     },
     {
@@ -1147,10 +1269,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.118,
-        "dense_fusion": 5.741,
-        "rerank": 219.369,
-        "total": 226.245
+        "sqlite_bm25": 1.162,
+        "dense_fusion": 7.429,
+        "rerank": 218.32,
+        "total": 226.931
       }
     },
     {
@@ -1177,10 +1299,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.081,
-        "dense_fusion": 6.917,
-        "rerank": 220.464,
-        "total": 228.479
+        "sqlite_bm25": 1.135,
+        "dense_fusion": 6.978,
+        "rerank": 230.346,
+        "total": 238.479
       }
     },
     {
@@ -1207,10 +1329,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.093,
-        "dense_fusion": 6.202,
-        "rerank": 218.881,
-        "total": 226.199
+        "sqlite_bm25": 1.197,
+        "dense_fusion": 6.263,
+        "rerank": 229.079,
+        "total": 236.558
       }
     },
     {
@@ -1237,10 +1359,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.135,
-        "dense_fusion": 6.204,
-        "rerank": 223.772,
-        "total": 231.128
+        "sqlite_bm25": 1.192,
+        "dense_fusion": 6.301,
+        "rerank": 240.195,
+        "total": 247.706
       }
     },
     {
@@ -1268,10 +1390,10 @@
       "evidence_hit": true,
       "correct_abstention": null,
       "timings_ms": {
-        "sqlite_bm25": 1.083,
-        "dense_fusion": 6.36,
-        "rerank": 201.0,
-        "total": 208.46
+        "sqlite_bm25": 1.413,
+        "dense_fusion": 6.452,
+        "rerank": 215.287,
+        "total": 223.169
       }
     },
     {
@@ -1294,10 +1416,10 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 1.121,
-        "dense_fusion": 5.717,
-        "rerank": 217.118,
-        "total": 223.972
+        "sqlite_bm25": 1.113,
+        "dense_fusion": 6.265,
+        "rerank": 239.773,
+        "total": 247.168
       }
     },
     {
@@ -1320,10 +1442,10 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 1.479,
-        "dense_fusion": 5.322,
-        "rerank": 211.853,
-        "total": 218.669
+        "sqlite_bm25": 1.089,
+        "dense_fusion": 6.246,
+        "rerank": 226.159,
+        "total": 233.51
       }
     },
     {
@@ -1340,7 +1462,7 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "total": 0.009
+        "total": 0.008
       }
     },
     {
@@ -1357,7 +1479,7 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "total": 0.005
+        "total": 0.006
       }
     },
     {
@@ -1397,10 +1519,10 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 1.133,
-        "dense_fusion": 6.068,
-        "rerank": 219.214,
-        "total": 226.43
+        "sqlite_bm25": 1.134,
+        "dense_fusion": 6.073,
+        "rerank": 237.418,
+        "total": 244.643
       }
     },
     {
@@ -1423,10 +1545,10 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 1.141,
-        "dense_fusion": 6.507,
-        "rerank": 214.029,
-        "total": 221.693
+        "sqlite_bm25": 1.147,
+        "dense_fusion": 6.086,
+        "rerank": 223.794,
+        "total": 231.043
       }
     },
     {
@@ -1449,10 +1571,10 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 1.123,
-        "dense_fusion": 5.65,
-        "rerank": 226.261,
-        "total": 233.049
+        "sqlite_bm25": 1.078,
+        "dense_fusion": 6.384,
+        "rerank": 236.646,
+        "total": 244.124
       }
     },
     {
@@ -1475,10 +1597,134 @@
       "evidence_hit": null,
       "correct_abstention": true,
       "timings_ms": {
-        "sqlite_bm25": 1.152,
-        "dense_fusion": 7.496,
-        "rerank": 222.658,
-        "total": 231.321
+        "sqlite_bm25": 1.107,
+        "dense_fusion": 5.883,
+        "rerank": 228.819,
+        "total": 235.823
+      }
+    },
+    {
+      "id": "tower-release",
+      "reranked": true,
+      "status": "ok",
+      "question": "According to the project-specific release procedure, who receives the packet and when?",
+      "expected": [
+        "BF-COORD-202:r1:project-specific-release-procedure:1"
+      ],
+      "top5": [
+        "BF-COORD-202:r1:project-specific-release-procedure:1",
+        "BF-COORD-202:r1:architectural-approvals:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-COORD-202:r1:shared-escalation-boundary:1",
+        "BF-COORD-202:r1:structural-and-facade-holds:1"
+      ],
+      "evidence": [
+        "BF-COORD-202:r1:project-specific-release-procedure:1",
+        "BF-COORD-202:r1:architectural-approvals:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-COORD-202:r1:shared-escalation-boundary:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.191,
+        "dense_fusion": 6.797,
+        "rerank": 234.66,
+        "total": 242.665
+      }
+    },
+    {
+      "id": "logistics-release",
+      "reranked": true,
+      "status": "ok",
+      "question": "According to the project-specific release procedure, who receives the packet and when?",
+      "expected": [
+        "BF-COORD-303:r1:project-specific-release-procedure:1"
+      ],
+      "top5": [
+        "BF-COORD-303:r1:project-specific-release-procedure:1",
+        "BF-RFI-001:r2:urgent-escalation:1",
+        "BF-SUB-001:r1:review-window:1",
+        "BF-RFI-001:r2:packet-contents:1",
+        "BF-SUB-001:r1:required-package:1"
+      ],
+      "evidence": [
+        "BF-COORD-303:r1:project-specific-release-procedure:1",
+        "BF-RFI-001:r2:urgent-escalation:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.179,
+        "dense_fusion": 9.103,
+        "rerank": 280.265,
+        "total": 290.564
+      }
+    },
+    {
+      "id": "tower-holds",
+      "reranked": true,
+      "status": "ok",
+      "question": "What are the transfer slab and curtain-wall anchor release conditions?",
+      "expected": [
+        "BF-COORD-202:r1:structural-and-facade-holds:1"
+      ],
+      "top5": [
+        "BF-COORD-202:r1:structural-and-facade-holds:1",
+        "BF-COORD-202:r1:project-specific-release-procedure:1",
+        "BF-COORD-202:r1:shared-escalation-boundary:1",
+        "BF-COORD-202:r1:architectural-approvals:1",
+        "BF-FIELD-001:r1:resolution-evidence:1"
+      ],
+      "evidence": [
+        "BF-COORD-202:r1:structural-and-facade-holds:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.225,
+        "dense_fusion": 6.669,
+        "rerank": 240.415,
+        "total": 248.326
+      }
+    },
+    {
+      "id": "logistics-holds",
+      "reranked": true,
+      "status": "ok",
+      "question": "What must happen before the underground fire-main crossing hold can be released?",
+      "expected": [
+        "BF-COORD-303:r1:fire-protection-and-warehouse-interfaces:1"
+      ],
+      "top5": [
+        "BF-COORD-303:r1:fire-protection-and-warehouse-interfaces:1",
+        "BF-COORD-303:r1:project-specific-release-procedure:1",
+        "BF-FIELD-001:r1:bx-17-clearance-hold:1",
+        "BF-FIELD-001:r1:resolution-evidence:1",
+        "BF-COORD-303:r1:site-sequencing:1"
+      ],
+      "evidence": [
+        "BF-COORD-303:r1:fire-protection-and-warehouse-interfaces:1"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_1": 1,
+      "mrr_at_5": 1.0,
+      "evidence_hit": true,
+      "correct_abstention": null,
+      "timings_ms": {
+        "sqlite_bm25": 1.213,
+        "dense_fusion": 6.659,
+        "rerank": 279.925,
+        "total": 287.815
       }
     }
   ],

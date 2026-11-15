@@ -85,7 +85,6 @@ def test_project_filter_before_ranking(tmp_path, local_models, monkeypatch):
     from backend.retrieval_service import Retriever
     from test_ingestion import write_doc
 
-    project_service.projects.append({"id": 202, "name": "Synthetic isolation fixture", "rfis": []})
     folder = tmp_path / "docs"
     folder.mkdir()
     first = write_doc(folder, project="101", body="## Handoff\nThe confidential sample code for handoff is BLUE-101.")

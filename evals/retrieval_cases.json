@@ -24,5 +24,9 @@
   {"id":"missing-architect","project_id":101,"question":"Who is the architect of record for project 101?","relevant":[]},
   {"id":"missing-completion","project_id":101,"question":"What is the approved contract completion date?","relevant":[]},
   {"id":"missing-warranty","project_id":101,"question":"What is the warranty period for the specified air handling units?","relevant":[]},
-  {"id":"missing-fire-rating","project_id":101,"question":"What is the required fire rating of the east corridor doors?","relevant":[]}
+  {"id":"missing-fire-rating","project_id":101,"question":"What is the required fire rating of the east corridor doors?","relevant":[]},
+  {"id":"tower-release","project_id":202,"question":"According to the project-specific release procedure, who receives the packet and when?","relevant":["BF-COORD-202:r1:project-specific-release-procedure:1"]},
+  {"id":"logistics-release","project_id":303,"question":"According to the project-specific release procedure, who receives the packet and when?","relevant":["BF-COORD-303:r1:project-specific-release-procedure:1"]},
+  {"id":"tower-holds","project_id":202,"question":"What are the transfer slab and curtain-wall anchor release conditions?","relevant":["BF-COORD-202:r1:structural-and-facade-holds:1"]},
+  {"id":"logistics-holds","project_id":303,"question":"What must happen before the underground fire-main crossing hold can be released?","relevant":["BF-COORD-303:r1:fire-protection-and-warehouse-interfaces:1"]}
 ]

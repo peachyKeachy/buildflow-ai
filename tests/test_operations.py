@@ -108,10 +108,9 @@ def test_metrics_never_contain_prompt_or_response(api, provider):
 
 def test_api_project_isolation(api, provider):
     from backend import project_service, operations
-    project_service.projects.append({'id':202,'name':'Synthetic second project','status':'active','rfis':[]})
     first = api.post('/ai/chat', json={'message':'How many RFIs are blocking?', 'project_id':101}).json()['answer']
     second = api.post('/ai/chat', json={'message':'How many RFIs are blocking?', 'project_id':202}).json()['answer']
-    assert '2 blocking' in first and '0 blocking' in second
+    assert '2 blocking' in first and '3 blocking' in second
     assert [e['cache'] for e in operations.store().events()] == ['miss','miss']
     provider.messages.create.assert_not_called()
 

@@ -36,7 +36,6 @@ def test_no_selection_requests_context(api, provider):
 
 
 def test_context_changes_do_not_stick(api, provider):
-    project_service.projects.append({'id':202, 'name':'Synthetic second project', 'rfis':[], 'status':'active'})
     provider.messages.create.side_effect = [text('First'), text('Second')]
     for project_id in (101, 202):
         assert api.post('/ai/chat', json={'message':'Project overview', 'project_id':project_id}).status_code == 200

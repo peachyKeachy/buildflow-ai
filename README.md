@@ -3,6 +3,9 @@
 Milestone 3B routing, cache, metrics configuration and demo commands:
 [local operations guide](docs/MILESTONE3B.md).
 
+Three fictional projects, expected counts, and verification steps:
+[multi-project demo guide](docs/MULTI_PROJECT_DEMO.md).
+
 Local construction RFI portfolio prototype using React/Vite, FastAPI, and Claude.
 All project data is synthetic sample data. This is not an official DeAngelis
 Diamond or Future Bylt application. No live Procore connection is present.

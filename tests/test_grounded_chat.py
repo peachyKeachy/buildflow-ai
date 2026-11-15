@@ -75,9 +75,10 @@ def test_cross_project_tool_rejected(api, provider, evidence):
     assert 'insufficient' in api.post('/ai/chat', json={"message":"Sample procedure project 101"}).json()['answer'].lower()
 
 
-def test_document_question_cannot_bypass_retrieval(api, provider):
-    provider.messages.create.side_effect = [text('An unsupported company policy')]
+def test_document_question_cannot_bypass_retrieval(api, provider, evidence):
+    provider.messages.create.side_effect = [text('An unsupported company policy'), text('Still unsupported')]
     assert 'insufficient' in api.post('/ai/chat', json={"message":"According to the sample procedure project 101"}).json()['answer'].lower()
+    assert provider.messages.create.call_count == 2
 
 
 def test_actual_retrieval_support(api, provider, local_models, tmp_path, monkeypatch):

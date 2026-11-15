@@ -4,6 +4,7 @@ import re
 from functools import lru_cache
 from threading import Lock
 from time import monotonic
+from types import SimpleNamespace
 
 import anthropic
 from backend import operations
@@ -249,7 +250,7 @@ def completion(messages):
 def ask_claude(message: str):
     return completion([{"role":"user", "content":message}])
 
-def execute_tool(tool_use):
+def execute_tool(tool_use, *, document_query=None):
     if tool_use.name not in {tool['name'] for tool in tools}:
         return {"error":"Unknown tool"}
     if not isinstance(tool_use.input, dict):
@@ -264,7 +265,7 @@ def execute_tool(tool_use):
         query = tool_use.input.get('query')
         if not isinstance(query, str) or not query.strip() or len(query) > 4000:
             return {"error":"A nonblank query of at most 4000 characters is required"}
-        return search_documents(query, project_id)
+        return search_documents(document_query if document_query is not None else query, project_id)
 
     if tool_use.name == "get_critical_rfis":
 
@@ -354,6 +355,8 @@ def chat_with_buildflow(message: str, project_id: int | None = None) -> str:
     messages = [{"role":"user", "content":message}]
     sources, seen_ids = {}, set()
     structured = []
+    search_executed = False
+    operations.metric(document_search='not_executed')
 
     def unsupported_documents():
         facts = structured_markdown(structured)
@@ -366,17 +369,30 @@ def chat_with_buildflow(message: str, project_id: int | None = None) -> str:
             raise InvalidProviderResponse()
         if monotonic() - started > 75:
             raise InvalidProviderResponse()
+        if (response.stop_reason == 'end_turn' and document_question and not search_executed
+                and len(project_ids) == 1 and iteration < 3):
+            response_text(response)
+            # Recover omitted retrieval once through the same tool and evidence checks.
+            search_executed = True
+            operations.metric(document_search='recovered_omission')
+            response = SimpleNamespace(stop_reason='tool_use', content=[anthropic.types.ToolUseBlock(
+                type='tool_use', id='buildflow_document_recovery', name='search_documents',
+                input={'project_id':next(iter(project_ids)), 'query':original_message})])
         if response.stop_reason == 'end_turn':
             answer = response_text(response)
             envelope = model_envelope(answer)
             if sources:
                 validated = grounded_answer(envelope or answer, sources)
+                if validated == INSUFFICIENT:
+                    operations.metric(document_failure='citation_validation_rejected')
                 return unsupported_documents() if validated == INSUFFICIENT else validated
             if envelope:
                 if envelope['support']:
+                    operations.metric(document_failure='citation_without_evidence')
                     return unsupported_documents()
                 answer = envelope['answer']
             if document_question or re.search(r'\[BF-', answer):
+                operations.metric(document_failure='search_not_executed' if not search_executed else 'no_relevant_sources')
                 return unsupported_documents()
             if answer == INSUFFICIENT and structured:
                 return unsupported_documents()
@@ -394,27 +410,42 @@ def chat_with_buildflow(message: str, project_id: int | None = None) -> str:
             if not isinstance(block.name, str):
                 raise InvalidProviderResponse()
             if block.name == 'search_documents' and not project_ids:
-                operations.metric(outcome='insufficient_evidence')
+                operations.metric(outcome='insufficient_evidence', document_failure='missing_project_context')
                 return INSUFFICIENT
             if not isinstance(block.id, str) or not block.id or block.id in seen_ids:
                 raise InvalidProviderResponse()
             seen_ids.add(block.id)
             if project_ids and isinstance(block.input, dict) and block.input.get('project_id') not in project_ids:
-                operations.metric(outcome='project_context_mismatch')
+                operations.metric(outcome='project_context_mismatch', document_failure='project_context_mismatch')
                 return INSUFFICIENT
+            if block.name == 'search_documents' and not search_executed:
+                search_executed = True
+                operations.metric(document_search='model_requested')
             try:
                 operations.increment('tool_calls')
-                result = execute_tool(block)
+                # Model rewrites can lose the procedure terms required by the unchanged thresholds.
+                document_query = original_message if document_question and len(project_ids) == 1 else None
+                if block.name == 'search_documents':
+                    operations.metric(document_query='original_request' if document_query is not None else 'model_query')
+                result = execute_tool(block, document_query=document_query)
             except RetrievalError:
-                result = {'status':'insufficient_evidence', 'evidence':[]}
+                operations.metric(document_failure='retrieval_unavailable')
+                result = {'status':'insufficient_evidence', 'reason':'retrieval_unavailable', 'evidence':[]}
+            if 'error' in result:
+                operations.metric(tool_failure='tool_execution_error')
             if block.name == 'search_documents':
                 if result.get('status') != 'ok' or not result.get('evidence'):
                     retrieval_failed = True
+                    reason = result.get('reason')
+                    operations.metric(document_failure='tool_execution_error' if 'error' in result else
+                        reason if reason in {'no_relevant_sources', 'empty_index', 'project_not_found',
+                                             'out_of_scope', 'retrieval_unavailable'} else 'no_relevant_sources')
                 for source in result.get('evidence', []):
                     if source.get('project_id') not in (None, block.input['project_id']) or not source.get('sample_data'):
-                        operations.metric(outcome='evidence_scope_mismatch')
+                        operations.metric(outcome='evidence_scope_mismatch', document_failure='evidence_scope_mismatch')
                         return INSUFFICIENT
                     sources[source['chunk_id']] = source
+                operations.metric(evidence_count=len(sources))
             elif block.name in ('get_project_summary', 'get_project_rfis', 'get_critical_rfis') and 'error' not in result:
                 structured.append((block.name, result))
             results.append({"type":"tool_result", "tool_use_id":block.id, "content":json.dumps(result)})

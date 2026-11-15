@@ -24,7 +24,9 @@ def test_project_contracts(api):
     assert project["name"] == "Naples Medical Center"
     assert project["status"] == "active"
     assert [r["id"] for r in project["rfis"]] == [1, 2, 3]
-    assert api.get("/projects").json() == [project]
+    all_projects = api.get("/projects").json()
+    assert [p['id'] for p in all_projects] == [101, 202, 303]
+    assert all_projects[0] == project
     assert api.get("/health").json() == {"status": "ok"}
     assert api.get("/projects/101/summary").json() == {
         "project_name": "Naples Medical Center", "total_rfis": 3,
