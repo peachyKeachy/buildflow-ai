@@ -1,10 +1,13 @@
 # BuildFlow AI
 
+Milestone 3B routing, cache, metrics configuration and demo commands:
+[local operations guide](docs/MILESTONE3B.md).
+
 Local construction RFI portfolio prototype using React/Vite, FastAPI, and Claude.
 All project data is synthetic sample data. This is not an official DeAngelis
 Diamond or Future Bylt application. No live Procore connection is present.
-Milestone 2 adds standalone document retrieval; Claude chat still uses only the
-original three structured project tools. Document-grounded generation is not yet integrated.
+The assistant combines structured project tools with citation-validated synthetic
+document retrieval. A small whitelist of simple RFI questions runs locally without Claude.
 
 ## Local development (PowerShell)
 
@@ -68,11 +71,11 @@ The SDK uses a 30-second timeout and no automatic retries. A tool-backed answer
 normally needs two provider calls. The dashboard retains its existing generic
 recoverable error notice; no frontend source was changed in this milestone.
 
-The model and 300-token output limit are unchanged. Truncated responses now fail
-cleanly rather than displaying partial answers. The existing single-tool round
-trip remains; arbitrary multi-step/parallel-tool orchestration is not implemented.
+The model name is unchanged. Output defaults to 1200 tokens, configurable through
+BUILDFLOW_MAX_OUTPUT_TOKENS. Truncated responses fail cleanly rather than displaying
+partial answers. Orchestration supports three bounded rounds of up to four tools.
 Live model availability and answer quality require a separate operator-approved
-smoke test. No authentication, persistence, or external workflow writes are added.
+smoke test. No authentication, persistent RFI database, or external workflow writes are added.
 
 ## Milestone 2: local document retrieval
 

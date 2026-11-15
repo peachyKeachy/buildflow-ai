@@ -187,7 +187,7 @@ function App() {
       const response = await fetch(`${API}/ai/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({ message: text, ...(projectId !== null ? { project_id: projectId } : {}) }),
         signal: AbortSignal.timeout(90000),
       });
       if (!response.ok) throw new Error("Chat request failed");

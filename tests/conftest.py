@@ -18,6 +18,11 @@ def isolated_projects(monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def isolated_operations(tmp_path, monkeypatch):
+    monkeypatch.setenv('BUILDFLOW_OPERATIONS_DB', str(tmp_path / 'operations.sqlite3'))
+
+
+@pytest.fixture(autouse=True)
 def no_external_network(monkeypatch):
     connect, connect_ex = socket.socket.connect, socket.socket.connect_ex
 

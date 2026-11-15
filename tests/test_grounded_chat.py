@@ -37,6 +37,8 @@ def test_document_answer(api, provider, evidence):
     assert evidence["chunk_id"] in result.json()["answer"]
     assert evidence["excerpt"] in result.json()["answer"]
     assert "Synthetic" in result.json()["answer"]
+    assert not result.json()['answer'].lstrip().startswith('{')
+    assert '"support"' not in result.json()['answer']
 
 
 @pytest.mark.parametrize("bad", ["id", "quote", "missing"])
@@ -51,7 +53,11 @@ def test_bad_citations_abstain(api, provider, evidence, bad):
 def test_combined_parallel_tools(api, provider, evidence):
     provider.messages.create.side_effect = [calls(("get_critical_rfis", {"project_id":101}),
         ("search_documents", {"project_id":101,"query":"escalation procedure"})), grounded(evidence)]
-    assert api.post('/ai/chat', json={"message":"Which critical RFIs in project 101 require escalation under the sample procedure?"}).status_code == 200
+    response = api.post('/ai/chat', json={"message":"Which critical RFIs in project 101 require escalation under the sample procedure?"})
+    assert response.status_code == 200
+    assert not response.json()['answer'].lstrip().startswith('{')
+    assert evidence['chunk_id'] in response.json()['answer']
+    assert '"support"' not in response.json()['answer']
     results = provider.messages.create.call_args.kwargs['messages'][-1]['content']
     assert [r['tool_use_id'] for r in results] == ['0','1']
     assert [r['id'] for r in json.loads(results[0]['content'])['critical_rfis']] == [1,3]
@@ -121,3 +127,107 @@ def test_retrieval_input_validation(payload):
 def test_missing_context_does_not_guess(api, provider):
     assert 'project ID' in api.post('/ai/chat', json={'message':'According to the sample procedure, who receives escalation?'}).json()['answer']
     provider.messages.create.assert_not_called()
+
+
+@pytest.mark.parametrize('fence', [None, '```json', '```'])
+def test_structured_rfi_json_is_unwrapped(api, provider, fence):
+    markdown = '**Critical RFIs**\n\n- RFI 1: Electrical routing conflict\n- RFI 3: Mechanical duct conflict'
+    raw = json.dumps({'answer':markdown, 'support':[]})
+    if fence:
+        raw = fence + '\n' + raw + '\n```'
+    provider.messages.create.side_effect = [calls(('get_critical_rfis', {'project_id':101})), text(raw)]
+    response = api.post('/ai/chat', json={'message':'Review critical RFIs for project 101 in detail'})
+    assert response.status_code == 200
+    assert response.json() == {'answer':markdown}
+
+
+@pytest.mark.parametrize('raw', ['{"answer": "private-provider-detail",',
+    '{"answer": 42, "support": []}', '{"answer":"", "support":[]}',
+    '{"answer":"Markdown", "support":{}}', '[{"answer":"private-provider-detail"}]'])
+def test_invalid_model_envelope_is_safe(api, provider, raw):
+    provider.messages.create.side_effect = [text(raw)]
+    response = api.post('/ai/chat', json={'message':'Review critical RFIs for project 101 in detail'})
+    assert response.status_code == 502
+    assert set(response.json()) == {'detail'}
+    assert 'private-provider-detail' not in response.text
+
+
+def test_no_evidence_cannot_unwrap_document_support(api, provider, evidence):
+    provider.messages.create.side_effect = [grounded(evidence)]
+    response = api.post('/ai/chat', json={'message':'Review critical RFIs for project 101 in detail'})
+    assert response.json() == {'answer':service.INSUFFICIENT}
+
+
+@pytest.mark.parametrize('fence', ['```json', '```'])
+def test_fenced_document_citations(api, provider, evidence, fence):
+    response = grounded(evidence)
+    response.content[0].text = fence + '\n' + response.content[0].text + '\n```'
+    provider.messages.create.side_effect = [calls(('search_documents', {'project_id':101,'query':'procedure'})), response]
+    result = api.post('/ai/chat', json={'message':'Sample procedure project 101'})
+    assert evidence['chunk_id'] in result.json()['answer']
+    assert 'Synthetic' in result.json()['answer']
+    assert '"support"' not in result.json()['answer']
+
+
+@pytest.mark.parametrize('raw', ['```json\n{"answer": "secret",\n```',
+    '```\n{"answer":"secret",\n```', '```json\n{"answer":"secret","support":[]}',
+    '```json\n{"answer":42,"support":[]}\n```'])
+def test_bad_fenced_json_is_safe(api, provider, raw):
+    provider.messages.create.side_effect = [text(raw)]
+    result = api.post('/ai/chat', json={'message':'Review critical RFIs for project 101 in detail'})
+    assert result.status_code == 502
+    assert 'secret' not in result.text
+
+
+@pytest.mark.parametrize('markdown', ['**RFIs**\n\nUse this code:\n```json\n{"example":1}\n```',
+    '```python\nprint("RFI")\n```', '```\nExample construction log\n```',
+    '```json\n{"example":1}\n```', '**RFIs**\n\n- Review blockers'])
+def test_ordinary_markdown_is_unchanged(api, provider, markdown):
+    provider.messages.create.side_effect = [text(markdown)]
+    assert api.post('/ai/chat', json={'message':'Explain construction RFIs'}).json() == {'answer':markdown}
+
+
+def test_structured_facts_survive_unnecessary_document_support(api, provider, evidence):
+    provider.messages.create.side_effect = [calls(('get_critical_rfis', {'project_id':101})), grounded(evidence)]
+    answer = api.post('/ai/chat', json={'message':'Review critical RFIs for project 101 in detail'}).json()['answer']
+    assert 'Electrical routing conflict' in answer and 'Mechanical duct conflict' in answer
+    assert '12' in answer and '8' in answer
+    assert 'insufficient' not in answer.lower() and evidence['chunk_id'] not in answer
+
+
+@pytest.mark.parametrize('mixed', [False, True])
+@pytest.mark.parametrize('failure', ['empty', 'unavailable'])
+def test_structured_facts_survive_retrieval_failure(api, provider, monkeypatch, mixed, failure):
+    from backend.document_store import RetrievalError
+    def retrieve(*args):
+        if failure == 'unavailable':
+            raise RetrievalError('private index details')
+        return {'status':'insufficient_evidence','evidence':[]}
+    monkeypatch.setattr(service, 'search_documents', retrieve)
+    provider.messages.create.side_effect = [calls(('search_documents', {'project_id':101,'query':'escalation'}),
+        ('get_critical_rfis', {'project_id':101}))]
+    question = 'Review critical RFIs for project 101 in detail' + (' According to the sample procedure?' if mixed else '')
+    answer = api.post('/ai/chat', json={'message':question}).json()['answer']
+    assert 'Electrical routing conflict' in answer and 'Mechanical duct conflict' in answer
+    assert ('insufficient' in answer.lower()) == mixed
+    assert 'private' not in answer
+
+
+def test_structured_only_never_opens_unavailable_index(api, provider, monkeypatch):
+    from unittest.mock import Mock
+    retrieval = Mock(side_effect=AssertionError('Structured questions must not open the index'))
+    monkeypatch.setattr(service, 'get_retriever', retrieval)
+    provider.messages.create.side_effect = [calls(('get_critical_rfis', {'project_id':101})),
+        text(json.dumps({'answer':'**Critical RFIs**: 1 and 3', 'support':[]}))]
+    result = api.post('/ai/chat', json={'message':'Review critical RFIs for project 101 in detail'})
+    assert result.json() == {'answer':'**Critical RFIs**: 1 and 3'}
+    retrieval.assert_not_called()
+
+
+def test_mixed_bad_citation_preserves_only_structured_facts(api, provider, evidence):
+    provider.messages.create.side_effect = [calls(('get_critical_rfis', {'project_id':101}),
+        ('search_documents', {'project_id':101,'query':'escalation'})), grounded(evidence, source_id='INVENTED')]
+    answer = api.post('/ai/chat', json={'message':'Critical RFIs for project 101 according to the sample procedure'}).json()['answer']
+    assert 'Electrical routing conflict' in answer and 'Mechanical duct conflict' in answer
+    assert 'insufficient' in answer.lower()
+    assert 'INVENTED' not in answer and 'receives the packet' not in answer

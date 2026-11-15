@@ -87,7 +87,7 @@ def test_unrelated_declined_without_provider(api, provider, question):
     provider.messages.create.assert_not_called()
 
 
-@pytest.mark.parametrize("question", ["Which RFIs are critical for project 101?",
+@pytest.mark.parametrize("question", ["Review critical RFIs for project 101 in detail",
     "What does RFI mean in construction?", "Explain concrete curing.",
     "Coordinate kitchen equipment installation.", "How do we resolve a subcontractor delay?",
     "How should we escalate this blocker?", "What is the recipe for a concrete mix?",
