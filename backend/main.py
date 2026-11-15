@@ -1,10 +1,15 @@
 # HTTP API for BuildFlow AI
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Annotated
 
-from backend.claude_service import chat_with_buildflow
+import anthropic
+from time import perf_counter
+from backend import operations
+
+from backend.claude_service import InvalidProviderResponse, chat_with_buildflow
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, StringConstraints
 
 from backend.project_service import (
     projects,
@@ -13,19 +18,37 @@ from backend.project_service import (
     get_project_summary
 )
 
+NonBlankText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
+
+
 class RFIInput(BaseModel):
-    title: str
-    days_open: int
+    title: NonBlankText
+    days_open: int = Field(ge=0)
     is_blocking: bool
 
 class ChatInput(BaseModel):
-    message: str
+    message: NonBlankText
+    project_id: Annotated[int, Field(strict=True, gt=0)] | None = None
 
 app = FastAPI(title="BuildFlow AI API")
+
+
+@app.middleware('http')
+async def measure_chat(request, call_next):
+    if request.url.path != '/ai/chat' or request.method != 'POST':
+        return await call_next(request)
+    token, started, status = operations.begin(), perf_counter(), 500
+    try:
+        response = await call_next(request)
+        status = response.status_code
+        return response
+    finally:
+        operations.finish(token, started, status)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173"
+        "http://localhost:5173",
+        "http://localhost:5180",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -129,7 +152,29 @@ def create_rfi(project_id: int, rfi: RFIInput):
 
 @app.post("/ai/chat")
 def chat_with_ai(chat: ChatInput):
-    answer = chat_with_buildflow(chat.message)
+    operations.metric(project_id=chat.project_id, selected_project_id=chat.project_id)
+    if chat.project_id is not None and not any(project['id'] == chat.project_id for project in projects):
+        raise HTTPException(404, 'Project not found')
+    try:
+        answer = chat_with_buildflow(chat.message, project_id=chat.project_id)
+    except InvalidProviderResponse:
+        raise HTTPException(502, "BuildFlow's AI service returned an incomplete response. Please try again.") from None
+    except anthropic.APITimeoutError:
+        raise HTTPException(504, "BuildFlow's AI service timed out. Please try again.") from None
+    except anthropic.APIConnectionError:
+        raise HTTPException(503, "BuildFlow's AI service is temporarily unavailable. Please try again.") from None
+    except anthropic.APIStatusError as error:
+        if error.status_code in (408, 504):
+            raise HTTPException(504, "BuildFlow's AI service timed out. Please try again.") from None
+        if error.status_code == 429:
+            raise HTTPException(429, "BuildFlow's AI service is busy. Please wait before trying again.") from None
+        if error.status_code in (401, 403):
+            raise HTTPException(503, "BuildFlow's AI service needs administrator attention. Please contact the demo operator.") from None
+        if error.status_code >= 500:
+            raise HTTPException(503, "BuildFlow's AI service is temporarily unavailable. Please try again.") from None
+        raise HTTPException(502, "BuildFlow's AI service could not process the request. Please contact the demo operator.") from None
+    except anthropic.AnthropicError:
+        raise HTTPException(503, "BuildFlow's AI service is not ready. Please contact the demo operator.") from None
 
     return {
         "answer": answer
