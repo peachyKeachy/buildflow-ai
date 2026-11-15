@@ -33,6 +33,33 @@ chat request first needs Claude. Tests do not load credential files or call Clau
 
 ## Milestone 1 verification
 
+### GitHub Actions CI
+
+[CI](.github/workflows/ci.yml) runs on pull requests targeting `main` and pushes
+to `main` or `feat/rag-evals-monday-demo`. Two independent Ubuntu jobs run:
+
+- **Backend tests:** Python 3.13, CPU PyTorch and all pinned dependencies from
+  `requirements-rag.txt` (which includes application and test requirements),
+  `pip check`, then the complete `pytest -q -rs` suite, including real retrieval
+  and its evaluation assertions. Both public models are explicitly downloaded
+  at the repository's pinned revisions before tests and cached by model code
+  and dependency hash. A cache miss downloads them again; failures fail CI.
+  Tests run offline with mocked Claude and temporary SQLite indexes; no local
+  database, existing virtual environment, `.env`, or API key is required.
+- **Frontend lint and build:** Node 22, `npm ci` from the committed lockfile,
+  `npm run lint`, and `npm run build`.
+
+Actions are pinned to release commit SHAs, repository permissions are read-only,
+and no deployment or paid API calls run. Initial dependency/model downloads need
+public network access. Browser smoke tests remain a separate manual check.
+
+To start checks on existing PR #1, commit these two files on
+`feat/rag-evals-monday-demo` and push that branch. GitHub will attach the two job
+results to the updated pull request; required-check enforcement is a separate
+repository branch-protection setting.
+
+### Local checks
+
 ```powershell
 .venv\Scripts\python.exe -m pytest -q
 cd frontend
